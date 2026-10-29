@@ -1,0 +1,13 @@
+{
+  "name": "nasir-ai-professional",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Nasir AI professional chat and voice Q&A website with server-side Gemini API integration",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs",
+    "check": "node --check server.mjs && node --check api/chat.js && node --check api/health.js && node --check lib/gemini.js && node --check lib/rate-limit.js && node --check public/app.js"
+  }
+}

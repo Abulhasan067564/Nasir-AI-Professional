@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d18">
+  <meta name="description" content="Nasir AI — আপনার বাংলা ও বহুভাষিক AI সহকারী। লিখে বা মাইক্রোফোনে প্রশ্ন করুন।">
+  <title>Nasir AI — আপনার স্মার্ট সহকারী</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/nasir-ai-logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="চ্যাট সাইডবার">
+      <div class="brand-row">
+        <img class="brand-logo" src="/assets/nasir-ai-logo.svg" alt="Nasir AI লোগো" onerror="this.hidden=true">
+        <div class="brand-copy"><div class="brand-title">Nasir <span>AI</span></div><div class="brand-caption">আপনার স্মার্ট সহকারী</div></div>
+        <button class="icon-button sidebar-close" id="closeSidebar" aria-label="সাইডবার বন্ধ করুন" title="বন্ধ করুন">×</button>
+      </div>
+
+      <button class="new-chat-button" id="newChat"><span class="plus-icon">＋</span><span>নতুন চ্যাট</span><kbd>Ctrl K</kbd></button>
+
+      <div class="sidebar-search-wrap">
+        <span class="search-symbol" aria-hidden="true">⌕</span>
+        <input id="historySearch" type="search" placeholder="চ্যাট খুঁজুন..." aria-label="চ্যাট খুঁজুন">
+        <kbd>/</kbd>
+      </div>
+
+      <div class="history-scroll">
+        <section class="history-section" id="pinnedSection" hidden>
+          <div class="section-label"><span>পিন করা</span><span class="tiny-pin">◆</span></div>
+          <div class="conversation-list" id="pinnedList"></div>
+        </section>
+        <section class="history-section">
+          <div class="section-label"><span>সাম্প্রতিক চ্যাট</span><span class="section-count" id="historyCount">0</span></div>
+          <div class="conversation-list" id="historyList"></div>
+          <div class="empty-history" id="emptyHistory">আপনার চ্যাট এখানে সংরক্ষিত হবে।</div>
+        </section>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="connection-card">
+          <span class="connection-dot" id="connectionDot"></span>
+          <div><strong id="connectionTitle">সার্ভার পরীক্ষা হচ্ছে</strong><small id="connectionText">AI সংযোগ যাচাই করা হচ্ছে</small></div>
+        </div>
+        <div class="profile-row">
+          <div class="avatar">N</div>
+          <div class="profile-copy"><strong>Nasir AI</strong><small>Gemini-powered assistant</small></div>
+          <button class="icon-button small" id="clearHistory" title="সব স্থানীয় চ্যাট মুছুন" aria-label="চ্যাট হিস্টরি মুছুন">⌫</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-button mobile-menu" id="openSidebar" aria-label="সাইডবার খুলুন" title="মেনু">☰</button>
+          <div class="workspace-title"><span class="status-orb"></span><span id="workspaceLabel">নতুন কথোপকথন</span></div>
+        </div>
+        <div class="topbar-actions">
+          <div class="model-pill"><span class="model-spark">✦</span><span id="modelName">Gemini AI</span><span class="model-chevron">▾</span></div>
+          <button class="icon-button" id="themeToggle" aria-label="থিম পরিবর্তন করুন" title="থিম পরিবর্তন করুন">☼</button>
+          <button class="icon-button" id="stopSpeaking" aria-label="ভয়েস বন্ধ করুন" title="ভয়েস বন্ধ করুন" hidden>■</button>
+        </div>
+      </header>
+
+      <div class="content-area" id="contentArea">
+        <section class="welcome-screen" id="welcomeScreen">
+          <div class="welcome-orb-wrap">
+            <div class="welcome-orb"><img src="/assets/nasir-ai-logo.svg" alt="Nasir AI"></div>
+            <span class="orb-spark spark-a">✦</span><span class="orb-spark spark-b">✧</span><span class="orb-spark spark-c">·</span>
+          </div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> NASIR AI · SMART ASSISTANT <span class="eyebrow-line"></span></div>
+          <h1>আসসালামু আলাইকুম!<br><span>আজ কী নিয়ে সাহায্য করব?</span></h1>
+          <p class="welcome-subtitle">প্রশ্ন করুন, নতুন কিছু শিখুন, আইডিয়া তৈরি করুন—Nasir AI আপনার পাশে আছে।</p>
+          <div class="suggestion-grid" id="suggestionGrid">
+            <button class="suggestion-card" data-prompt="ষষ্ঠ শ্রেণির একজন শিক্ষার্থীকে সহজভাবে বিজ্ঞান শেখার একটি দৈনিক পরিকল্পনা দিন।"><span class="suggestion-icon teal">✧</span><span><strong>পড়াশোনায় সাহায্য</strong><small>সহজ ভাষায় ধাপে ধাপে শিখুন</small></span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion-card" data-prompt="কৃত্রিম বুদ্ধিমত্তা কী? বাস্তব জীবনের উদাহরণ দিয়ে বাংলায় বুঝিয়ে বলুন।"><span class="suggestion-icon violet">⌘</span><span><strong>AI ও প্রযুক্তি</strong><small>জটিল বিষয় সহজ করে বুঝুন</small></span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion-card" data-prompt="একটি পেশাদার ও নিরাপদ ওয়েবসাইট তৈরির জন্য ধাপে ধাপে রোডম্যাপ দিন।"><span class="suggestion-icon blue">⌘</span><span><strong>ওয়েবসাইট তৈরি</strong><small>কোড, পরিকল্পনা ও সমস্যা সমাধান</small></span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion-card" data-prompt="আজকের গুরুত্বপূর্ণ বিষয় জানতে কীভাবে নির্ভরযোগ্য তথ্য যাচাই করব? একটি সহজ গাইড দিন।"><span class="suggestion-icon amber">⌕</span><span><strong>গবেষণা ও তথ্য</strong><small>প্রয়োজনে ওয়েব সূত্রসহ উত্তর</small></span><span class="suggestion-arrow">↗</span></button>
+          </div>
+        </section>
+
+        <section class="chat-area" id="chatArea" hidden>
+          <div class="messages" id="messages" aria-live="polite"></div>
+          <div class="typing-row" id="typingRow" hidden><span class="typing-avatar">N</span><div class="typing-bubble"><span></span><span></span><span></span><em>Nasir AI উত্তর তৈরি করছে…</em></div></div>
+        </section>
+      </div>
+
+      <footer class="composer-area">
+        <div class="voice-status" id="voiceStatus" role="status" aria-live="polite" hidden><span class="voice-pulse"></span><span id="voiceStatusText">শুনছি… আপনার প্রশ্নটি বলুন</span><button id="cancelListening" type="button">বাতিল</button></div>
+        <form class="composer" id="chatForm">
+          <textarea id="messageInput" rows="1" maxlength="12000" placeholder="Nasir AI-কে যেকোনো প্রশ্ন করুন…" aria-label="আপনার প্রশ্ন লিখুন"></textarea>
+          <div class="composer-bottom">
+            <div class="composer-tools">
+              <label class="tool-toggle" title="সাম্প্রতিক তথ্যের জন্য Google Search grounding ব্যবহার করুন"><input type="checkbox" id="searchToggle"><span class="switch"></span><span class="tool-label">ওয়েবে খুঁজুন</span><span class="tool-help" title="সাম্প্রতিক তথ্য ও সূত্রের জন্য">ⓘ</span></label>
+              <span class="tool-divider"></span>
+              <label class="voice-language-label" for="voiceLanguage">ভয়েস</label>
+              <select id="voiceLanguage" aria-label="ভয়েসের ভাষা"><option value="bn-BD" selected>বাংলা</option><option value="en-US">English</option></select>
+              <label class="auto-speak-toggle" title="ভয়েসে প্রশ্ন করলে উত্তর পড়ে শোনান"><input type="checkbox" id="autoSpeak" checked><span>উত্তর শুনুন</span></label>
+            </div>
+            <div class="send-tools">
+              <span class="char-count" id="charCount">0 / 12000</span>
+              <button class="mic-button" id="micButton" type="button" aria-label="মাইক্রোফোনে প্রশ্ন করুন" title="মাইক্রোফোনে প্রশ্ন করুন"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"></rect><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3M9 21h6"></path></svg></button>
+              <button class="send-button" id="sendButton" type="submit" aria-label="প্রশ্ন পাঠান"><span>পাঠান</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 5l7 7-7 7"></path></svg></button>
+            </div>
+          </div>
+        </form>
+        <div class="composer-note">Nasir AI ভুল করতে পারে। গুরুত্বপূর্ণ তথ্য নির্ভরযোগ্য উৎস থেকে যাচাই করুন।</div>
+      </footer>
+    </main>
+  </div>
+  <div class="mobile-backdrop" id="mobileBackdrop" hidden></div>
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+  <dialog class="confirm-dialog" id="confirmDialog"><div class="dialog-icon">!</div><h2 id="dialogTitle">আপনি কি নিশ্চিত?</h2><p id="dialogDescription">এই কাজটি পরে ফিরিয়ে নেওয়া যাবে না।</p><div class="dialog-actions"><button class="secondary-button" id="dialogCancel">বাতিল</button><button class="danger-button" id="dialogConfirm">মুছে ফেলুন</button></div></dialog>
+</body>
+</html>
