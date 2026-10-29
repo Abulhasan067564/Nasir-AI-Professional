@@ -32,9 +32,9 @@ npm start
 
 ## 2. Vercel-এ publish
 
-1. ZIP extract করুন। পুরো project GitHub repository-তে upload করুন; `.env` বা API key কোনো অবস্থায় upload করবেন না।
+1. নতুন ZIP extract করুন। GitHub repository-র **root**-এ সরাসরি `api/`, `public/`, `lib/`, `package.json`, `vercel.json` ফোল্ডার/ফাইলগুলো থাকতে হবে। ZIP-এর ভিতরের কোনো parent folder-কে ভুল করে repository root বানাবেন না। `.env` বা API key কোনো অবস্থায় upload করবেন না।
 2. Vercel-এ **Add New → Project** থেকে repository import করুন।
-3. Framework Preset: **Other**; Build Command ফাঁকা/none; Output Directory: `public`। `vercel.json`-ও output directory নির্ধারণ করে।
+3. Framework Preset: **Other**; Build Command ফাঁকা/none; Output Directory: `public`। `vercel.json`-এ static folder এবং API function settings রয়েছে। Vercel-এর Root Directory যদি আলাদা করে সেট করা থাকে, সেটি এমন জায়গায় দিন যেখানে `api/` ও `public/` সরাসরি আছে।
 4. Project → **Settings → Environment Variables**-এ যোগ করুন:
    - `GEMINI_API_KEY` = Google AI Studio-তে তৈরি করা secret API key
    - `GEMINI_MODEL` = `gemini-3.8-flash` (ঐচ্ছিক; না দিলেও এই default ব্যবহৃত হবে)
@@ -79,7 +79,8 @@ Google AI Studio খুলুন: https://aistudio.google.com/app/apikey
 
 ## 7. সমস্যা হলে দ্রুত যাচাই
 
-- **AI উত্তর আসে না:** `https://আপনার-সাইট/api/health` খুলুন; `configured` true হওয়া চাই।
+- **`500 FUNCTION_INVOCATION_FAILED` দেখালে:** প্রথমে `https://আপনার-সাইট/api/health` সরাসরি খুলুন। সঠিকভাবে deploy হলে `status: "ok"`-সহ JSON আসবে; `configured: false` হলে `GEMINI_API_KEY` যোগ করে Redeploy করুন। যদি `/api/health` নিজেই একই 500 দেখায়, তাহলে সাধারণত Vercel runtime/import/Root Directory deployment সমস্যা। Vercel Dashboard → Project → Deployments → সর্বশেষ Deployment → Functions/Runtime Logs খুলে প্রথম লাল error line দেখুন। নিশ্চিত করুন repository root-এ `api/health.js`, `api/chat.js`, `public/`, `package.json` ও `vercel.json` সরাসরি আছে—ভুল nested folder থেকে deploy করবেন না। Logs-এর error line না দেখে কোনো নির্দিষ্ট কারণ নিশ্চিত করা যায় না।
+- **AI উত্তর আসে না:** `https://আপনার-সাইট/api/health` খুলুন; `configured` true হওয়া চাই। `true` হলেও প্রশ্নের উত্তর না এলে `/api/chat`-এর runtime logs দেখুন এবং API key, quota ও model access যাচাই করুন।
 - **API key error:** Environment Variables-এ key ঠিক আছে কি না দেখুন, তারপর redeploy করুন।
 - **Quota/429:** Google AI Studio-তে quota ও model access পরীক্ষা করুন।
 - **ভয়েস কাজ করে না:** HTTPS, Chrome/Edge, microphone permission, Windows microphone input এবং `bn-BD` speech recognition support পরীক্ষা করুন।

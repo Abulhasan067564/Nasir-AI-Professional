@@ -18,7 +18,7 @@ try {
     const match = line.match(/^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/);
     if (!match || Object.prototype.hasOwnProperty.call(process.env, match[1])) continue;
     let value = match[2].trim();
-    if ((value.startsWith(') && value.endsWith(')) || (value.startsWith(") && value.endsWith("))) value = value.slice(1, -1);
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) value = value.slice(1, -1);
     process.env[match[1]] = value;
   }
 } catch { /* A .env file is optional on hosted deployments. */ }
